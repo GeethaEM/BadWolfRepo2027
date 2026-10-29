@@ -1,84 +1,64 @@
 package org.firstinspires.ftc.teamcode;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.teamcode.MyTeamUtil.rotate_coordinates;
+import static org.firstinspires.ftc.teamcode.MyTeamUtil.drive;
+import static org.firstinspires.ftc.teamcode.MyTeamUtil.get_to_target;
+import static org.firstinspires.ftc.teamcode.MyTeamUtil.spin_to_face;
+import static org.firstinspires.ftc.teamcode.MyTeamUtil.intake;
+import static org.firstinspires.ftc.teamcode.MyTeamUtil.move_servos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
+
+import java.util.Base64;
 import java.util.List;
 import java.util.ArrayList;
 
 @Autonomous(name = "Autonomous Geetha", group = "Robot")
 public class AutonomousGeetha extends LinearOpMode {
+
+    private List<DcMotor> wheel_motors = new ArrayList<>();
+    private List<Servo> flower_servos = new ArrayList<>();
     private DcMotor frontLeftMotor;
     private DcMotor backLeftMotor;
     private DcMotor frontRightMotor;
     private DcMotor backRightMotor;
     private GyroSensor imu;
-    public List<Double> rotate_coordinates(double cor_x, double cor_y) {
-        imu = hardwareMap.get(GyroSensor.class, "imu");
-        double angle = Math.toRadians(imu.getHeading());
-        double x = cor_x * Math.cos(angle) - cor_y * Math.sin(angle);
-        double y = cor_x * Math.sin(angle) + cor_y * Math.cos(angle);
-        List<Double> list = new ArrayList<>();
-        list.add(x);
-        list.add(y);
-        return list;
-    }
+    private DcMotor intakeMotor;
+    private Servo flowerServo1;
+    private Servo flowerServo2;
 
-
-    public void drive(double direction_x, double direction_y, int spin) {
+    @Override
+    public void runOpMode() {
         frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
         backLeftMotor = hardwareMap.get(DcMotor.class, "backLeft");
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRight");
         backRightMotor = hardwareMap.get(DcMotor.class, "backRight");
+
+        imu = hardwareMap.get(GyroSensor.class, "imu");
+
+        intakeMotor = hardwareMap.get(DcMotor.class, "intake_motor");
+
+        flowerServo1 = hardwareMap.get(Servo.class, "flower_servo_1");
+        flowerServo2 = hardwareMap.get(Servo.class, "flower_servo_2");
 
         frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        frontLeftMotor.setPower(direction_y + direction_x + spin);
-        backLeftMotor.setPower(direction_y - direction_x + spin);
-        frontRightMotor.setPower(direction_y - direction_x - spin);
-        backRightMotor.setPower(direction_y + direction_x - spin);
-    }
+        wheel_motors.add(frontLeftMotor);
+        wheel_motors.add(backLeftMotor);
+        wheel_motors.add(frontRightMotor);
+        wheel_motors.add(backRightMotor);
 
-    public void get_to_target (double cor_x, double cor_y) {
-        List<Double> directions = new ArrayList<>();
-        for (int i = 0; i <= 1; i++) {
-            double ready_target = rotate_coordinates(cor_x, cor_y).get(i);
-            directions.add(1 - i, 0.00);
-            while (ready_target != 0) {
-                if (ready_target > 0) {
-                    directions.add(i, 1.00);
-                } else if (ready_target < 0) {
-                    directions.add(i, -1.00);
-                }
-                drive(directions.get(0), directions.get(1), 0);
-                ready_target = rotate_coordinates(cor_x, cor_y).get(i);
-            }
-            drive(0, 0, 0);
-        }
-    }
-    public void spin_to_face(double cor_x, double cor_y) {
-        double ready_target = rotate_coordinates(cor_x, cor_y).get(0);
-        while (ready_target != 0) {
-            if (ready_target > 0) {
-                drive(0, 0, 1);
-            } else if (ready_target < 0) {
-                drive(0, 0, -1);
-            }
-            ready_target = rotate_coordinates(cor_x, cor_y).get(0);
-        }
-        drive(0, 0, 0);
-    }
-
-    @Override
-    public void runOpMode() {
-
+        flower_servos.add(flowerServo1);
+        flower_servos.add(flowerServo2);
 
         // Wait for driver to press start
         telemetry.addData(">", "Touch Play to run Auto");
@@ -88,7 +68,6 @@ public class AutonomousGeetha extends LinearOpMode {
 
         // Run Auto if stop was not pressed.
         if (opModeIsActive()) {
-
         }
     }
 }
