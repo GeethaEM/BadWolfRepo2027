@@ -38,7 +38,7 @@ public class Flywheel {
         motor_1.setPower(power);
         motor_2.setPower(power);
     }
-9
+
     public void stopMotors() {
         motor_1.setPower(0);
         motor_2.setPower(0);
