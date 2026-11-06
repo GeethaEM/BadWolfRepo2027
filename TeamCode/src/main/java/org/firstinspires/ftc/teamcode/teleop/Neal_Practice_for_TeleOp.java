@@ -14,7 +14,7 @@ public class Neal_Practice_for_TeleOp extends OpMode {
     private DcMotor frontRight;
     private DcMotor backRight;
     private DcMotor Flywheel;
-    private boolean x_pressed_last = false;
+    private final boolean x_pressed_last = false;
     Flywheel_Controller Flywheel_Controller;
     /*Variable types:
     Double = can have decimal places

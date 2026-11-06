@@ -1,4 +1,7 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
 
 //
 // build.gradle in TeamCode
@@ -12,6 +15,7 @@ apply plugin: 'com.android.application'
 
 // Custom definitions may go here
 
+
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
@@ -19,11 +23,19 @@ apply from: '../build.dependencies.gradle'
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
 
-    packagingOptions {
+    defaultConfig{
+        minSdk 24
+    }
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += 'META-INF/kotlin-project-structure-metadata.json'
+        }
         jniLibs.useLegacyPackaging true
     }
 }
 
 dependencies {
     implementation project(':FtcRobotController')
+    implementation('com.acmerobotics.dashboard:dashboard:0.4.16')
 }
