@@ -32,7 +32,9 @@ public class AutonomousGeetha extends LinearOpMode {
     private DcMotor intakeMotor;
     private Servo flowerServo1;
     private Servo flowerServo2;
+    private List<Double> robot_position = new ArrayList<>();
 
+    //pressing start
     @Override
     public void runOpMode() {
         frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeft");
@@ -60,6 +62,9 @@ public class AutonomousGeetha extends LinearOpMode {
         flower_servos.add(flowerServo1);
         flower_servos.add(flowerServo2);
 
+        robot_position.add(5.0);
+        robot_position.add(4.0);
+
         // Wait for driver to press start
         telemetry.addData(">", "Touch Play to run Auto");
         telemetry.update();
@@ -68,6 +73,8 @@ public class AutonomousGeetha extends LinearOpMode {
 
         // Run Auto if stop was not pressed.
         if (opModeIsActive()) {
+            sleep(2000);
+
         }
     }
 }
