@@ -9,7 +9,6 @@ import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
 public class MyTeamUtil {
     static public List<Double> rotate_coordinates(List<DcMotor> wheels, List<Double> target) {
         Pose robot_position = follower.pose();
