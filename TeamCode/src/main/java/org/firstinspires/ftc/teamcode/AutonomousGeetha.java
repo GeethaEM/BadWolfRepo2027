@@ -4,7 +4,6 @@ import static org.firstinspires.ftc.teamcode.MyTeamUtil.rotate_coordinates;
 import static org.firstinspires.ftc.teamcode.MyTeamUtil.drive;
 import static org.firstinspires.ftc.teamcode.MyTeamUtil.get_to_target;
 import static org.firstinspires.ftc.teamcode.MyTeamUtil.spin_to_face;
-import static org.firstinspires.ftc.teamcode.MyTeamUtil.intake;
 import static org.firstinspires.ftc.teamcode.MyTeamUtil.move_servos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -24,6 +23,8 @@ public class AutonomousGeetha extends LinearOpMode {
 
     private List<DcMotor> wheel_motors = new ArrayList<>();
     private List<Servo> flower_servos = new ArrayList<>();
+    private List<Double> robot_position = new ArrayList<>();
+    private List<List<List<Double>>> targets_list = new ArrayList<>();
     private DcMotor frontLeftMotor;
     private DcMotor backLeftMotor;
     private DcMotor frontRightMotor;
@@ -60,6 +61,9 @@ public class AutonomousGeetha extends LinearOpMode {
         flower_servos.add(flowerServo1);
         flower_servos.add(flowerServo2);
 
+        robot_position.add(9.0);
+        robot_position.add(104.0);
+
         // Wait for driver to press start
         telemetry.addData(">", "Touch Play to run Auto");
         telemetry.update();
@@ -68,6 +72,7 @@ public class AutonomousGeetha extends LinearOpMode {
 
         // Run Auto if stop was not pressed.
         if (opModeIsActive()) {
+            intakeMotor.setPower(1);
         }
     }
 }
